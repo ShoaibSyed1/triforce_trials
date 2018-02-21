@@ -1,0 +1,70 @@
+[animation]
+current = "default"
+
+[animation.sets.default]
+delay = 0.1
+start = 0
+end = 1
+
+[animation.sets.north]
+delay = 0
+start = 0
+end = 1
+
+[animation.sets.northeast]
+delay = 0
+start = 1
+end = 2
+
+[animation.sets.east]
+delay = 0
+start = 2
+end = 3
+
+[animation.sets.southeast]
+delay = 0
+start = 3
+end = 4
+
+[animation.sets.south]
+delay = 0
+start = 4
+end = 5
+
+[animation.sets.southwest]
+delay = 0
+start = 5
+end = 6
+
+[animation.sets.west]
+delay = 0
+start = 6
+end = 7
+
+[animation.sets.northwest]
+delay = 0
+start = 7
+end = 8
+
+[animation.sets.stunned]
+delay = 0
+start = 8
+end = 9
+
+[collision]
+size = [16, 16]
+solid = true
+
+[event]
+listen = ["COLLISION", "PLAYER"]
+
+[script]
+path = "enemies/mini_moldorm"
+
+[sprite]
+parent = "enemies/mini_moldorm"
+
+[tag]
+tags = ["enemy"]
+
+[transform]

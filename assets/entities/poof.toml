@@ -1,0 +1,15 @@
+[script]
+path = "poof"
+
+[sprite]
+image = "enemies/poof"
+
+[sprite.animation]
+frame_width = 16
+frame_height = 16
+delay = 0.2
+start = 0
+end = 2
+
+[transform]
+scale = [2, 2]

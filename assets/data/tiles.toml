@@ -1,0 +1,15 @@
+[[oneway_entrance]]
+entity = "tiles/oneway_entrance"
+chance = 1
+
+[[entrance]]
+entity = "tiles/entrance"
+chance = 1
+
+[[exit]]
+entity = "tiles/exit"
+chance = 1
+
+[[enemy]]
+entity = "enemies/mini_moldorm"
+chance = 1

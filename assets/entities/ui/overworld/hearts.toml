@@ -1,0 +1,5 @@
+[event]
+listen = ["PLAYER"]
+
+[script]
+path = "ui/hearts"

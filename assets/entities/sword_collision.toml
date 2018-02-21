@@ -1,0 +1,10 @@
+
+[collision]
+size = [16, 16]
+persistent = true
+
+[tag]
+tags = ["sword"]
+
+[transform]
+scale = [2, 2]

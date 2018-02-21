@@ -1,0 +1,42 @@
+0 =  north, east, south, west
+1 =  north
+2 =         east
+3 =  north, east
+4 =               south
+5 =  north,       south
+6 =         east, south
+7 =  north, east, south
+8 =                      west
+9 =  north,              west
+10 =        east,        west
+11 = north, east,        west
+12 =              south, west
+13 = north,       south, west
+14 =        east, south, west
+15 = next set
+
+next set:
+0 = ne, se, sw, nw
+1 =     se, sw, nw
+2 = ne,     sw, nw
+3 =         sw, nw
+4 = ne, se,     nw
+5 =     se,     nw
+6 = ne,         nw
+7 =             nw
+8 = ne, se, sw
+9 =     se, sw
+10 = ne,    sw
+11 =        sw
+12 = ne, se
+13 =     se
+14 = ne
+15 = blank
+
+NW N NE
+W  T  E
+SW S SE
+
+sprite_number = first_set
+if sprite_number == 15:
+    sprite_number += next_set + 1

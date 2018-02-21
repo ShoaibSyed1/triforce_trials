@@ -1,0 +1,6 @@
+[sprite]
+parent = "ui/heart"
+
+[transform]
+fixed = true
+layer = 50

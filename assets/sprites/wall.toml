@@ -1,0 +1,5 @@
+image = "wall"
+
+[animation]
+frame_width = 4
+frame_height = 4

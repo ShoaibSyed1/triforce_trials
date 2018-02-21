@@ -1,0 +1,10 @@
+[sprite]
+parent = "ui/bottombar"
+
+[transform]
+position = [0, 400]
+fixed = true
+layer = 50
+
+[[include]]
+parent = "ui/overworld/xp_bar"

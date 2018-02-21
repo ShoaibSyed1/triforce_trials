@@ -1,0 +1,6 @@
+image = "sword"
+
+[animation]
+frame_width = 52
+frame_height = 56
+delay = 0.07

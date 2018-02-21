@@ -1,0 +1,7 @@
+image = "player"
+
+[animation]
+frame_width = 20
+frame_height = 24
+start = 0
+end = 1

@@ -1,0 +1,8 @@
+[sprite.text]
+text = ""
+color = [255, 255, 255]
+size = 0
+
+[transform]
+fixed = true
+layer = 51

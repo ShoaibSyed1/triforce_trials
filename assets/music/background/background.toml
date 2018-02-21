@@ -1,0 +1,13 @@
+repeat = "RANDOM"
+
+[[choices]]
+path = "background/tp_cave"
+
+[[choices]]
+path = "background/tp_temple_of_time"
+
+[[choices]]
+path = "background/tp_twilight_realm"
+
+[[choices]]
+path = "background/tp_snowpeak_ruins"

@@ -1,0 +1,15 @@
+[collision]
+size = [16, 16]
+solid = false
+
+[event]
+
+[script]
+path = "tiles/entrance"
+args = [false]
+
+[sprite]
+image = "tiles/entrance"
+
+[transform]
+layer = 15

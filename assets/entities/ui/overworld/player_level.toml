@@ -1,0 +1,15 @@
+[event]
+listen = ["PLAYER"]
+
+[script]
+path = "ui/player_level"
+
+[sprite.text]
+text = "Level 1"
+color = [255, 255, 255]
+size = 14
+
+[transform]
+position = [300, 450]
+fixed = true
+layer = 52

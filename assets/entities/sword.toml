@@ -1,0 +1,26 @@
+[animation.sets.swing_down]
+delay = 0.05
+start = 0
+end = 7
+
+[animation.sets.swing_right]
+delay = 0.05
+start = 7
+end = 14
+
+[animation.sets.swing_left]
+delay = 0.05
+start = 14
+end = 21
+
+[animation.sets.swing_up]
+delay = 0.05
+start = 21
+end = 28
+
+[sprite]
+parent = "sword"
+
+[transform]
+scale = [2, 2]
+layer = 11

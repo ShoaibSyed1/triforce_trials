@@ -1,0 +1,4 @@
+parent = "tiles/entrance"
+
+[script]
+args = [true]

@@ -1,0 +1,15 @@
+
+[event]
+listen = ["ACTION", "PYGAME"]
+
+[script]
+path = "ui/action_script"
+
+[sprite]
+image = "ui/action_button"
+
+[transform]
+position = [304, 360]
+scale = [1, 1]
+fixed = true
+layer = 51

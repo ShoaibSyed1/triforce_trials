@@ -1,0 +1,26 @@
+Background = TP Twilight Realm --
+           | TP Temple of Time --
+           | TP Cave --
+           | TP Snowpeak Ruins --
+
+Shopkeeper = TP "Shop Theme"
+
+Enemy Encounter = TP Enemies
+                | TP Twilit Battle
+
+Miniboss = BOTW Stone Talus Theme
+         | ST Mini Boss
+         | TP Horse Battle
+         | TP Blizzeta Battle Second Half
+         | SS Ghirahim Battle
+         | WWHD Mini Boss
+
+Boss Room = PIKMIN The Final Trial
+
+Boss
+- Phase One = BOTW Calamity Ganon Phase Two
+- Phase Two = BOTW Dark Beast Ganon Phase Two
+
+Boss Victory = PIKMIN View
+
+Game Over = MM Song of Unhealing

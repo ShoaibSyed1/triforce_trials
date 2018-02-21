@@ -1,0 +1,16 @@
+[event]
+listen = ["PLAYER"]
+
+[script]
+path = "ui/xp_bar"
+
+[sprite]
+image = "ui/xp_bar"
+
+[transform]
+position = [8, 470]
+fixed = true
+layer = 51
+
+[[include]]
+parent = "ui/overworld/player_level"

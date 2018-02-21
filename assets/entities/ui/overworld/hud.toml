@@ -1,0 +1,8 @@
+[[include]]
+parent = "ui/overworld/bottombar"
+
+[[include]]
+parent = "ui/overworld/hearts"
+
+[[include]]
+parent = "ui/overworld/action_info"

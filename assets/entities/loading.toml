@@ -1,0 +1,6 @@
+[sprite]
+image = "loading_bg"
+
+[transform]
+fixed = true
+layer = 100

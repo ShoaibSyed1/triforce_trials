@@ -1,0 +1,14 @@
+[collision]
+size = [16, 16]
+solid = false
+
+[event]
+listen = ["COLLISION"]
+
+[script]
+path = "tiles/exit"
+
+[sprite]
+image = "tiles/exit"
+
+[transform]

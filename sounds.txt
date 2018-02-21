@@ -1,0 +1,6 @@
+Pickup Money = BOTW Pickup Rupee
+Pickup Item = BOTW Pickup Item
+
+Level Up = BOTW Small/Important Item Get
+Upgrade Skill = BOTW Item Obtained
+New Special = BOTW Key Item Obtained

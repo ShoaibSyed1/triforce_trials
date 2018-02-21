@@ -1,0 +1,6 @@
+image = "enemies/mini_moldorm"
+
+[animation]
+frame_width = 16
+frame_height = 16
+delay = 0.1

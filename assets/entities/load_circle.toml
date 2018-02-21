@@ -1,0 +1,15 @@
+[sprite]
+image = "loading_circle"
+
+[sprite.animation]
+frame_width = 3
+frame_height = 3
+start = 0
+end = 15
+delay = 0.05
+
+[transform]
+position = [320, 240]
+layer = 101
+fixed = true
+scale = [5, 5]
