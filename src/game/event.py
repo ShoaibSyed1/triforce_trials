@@ -43,7 +43,7 @@ class PlayerEventType(Enum):
     ADD_XP = 2
     XP_ADDED = 3
 
-    HURT = 4 # amount: int
+    HURT = 4 # amount: int, knockback: vector2
     HEAL = 5
     HEALTH_CHANGED = 6 # original: int, amount: int, new: int
 

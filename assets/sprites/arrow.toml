@@ -1,0 +1,5 @@
+image = "arrow"
+
+[animation]
+frame_width = 16
+frame_height = 16

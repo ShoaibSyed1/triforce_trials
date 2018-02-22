@@ -15,6 +15,8 @@ class Enemy(Script):
         self.xp_amount = 5
         self.attack_amount = 1
 
+        self.damage_knockback = pygame.math.Vector2(0, 0)
+
         self._enemy_state = None
         self._dead = False
     
@@ -81,26 +83,21 @@ class NormalState(EnemyState):
 
                 tag = self.enemy.world.component_for_entity(other_entity, Tag)
 
-                if tag != None and "sword" in tag.tags:
+                if tag != None and "weapon" in tag.tags:
                     self.take_damage(other_entity)
                 elif tag != None and "player" in tag.tags:
                     self.enemy.event_bus.send.append(Event({
                         'type': PlayerEventType.HURT,
-                        'amount': self.enemy.attack_amount
+                        'amount': self.enemy.attack_amount,
+                        'knockback': self.enemy.damage_knockback
                     }, EventType.PLAYER))
     
-    def take_damage(self, sword_entity):        
-        script_comp = self.enemy.world.component_for_entity(sword_entity, ScriptComponent)
-        if type(script_comp.script) != SwordScript:
-            return
+    def take_damage(self, weapon_entity):        
+        script_comp = self.enemy.world.component_for_entity(weapon_entity, ScriptComponent)
         
-        sword_data = script_comp.script.data
-        player_dir = script_comp.script.player.facer.get_dir()
+        damage_data = script_comp.script.data
 
-        if player_dir == None:
-            player_dir = Direction.DOWN
-
-        self.enemy.health -= sword_data.damage
+        self.enemy.health -= damage_data.damage
 
         if self.enemy.health <= 0:
             self.death_sound.play()
@@ -109,7 +106,7 @@ class NormalState(EnemyState):
             self.damage_sound.play()
             self.enemy._set_state(StunnedState(self.enemy))
         
-        self.enemy.collision.velocity = player_dir.to_vector(constants.ENEMY_KNOCKBACK)
+        self.enemy.collision.velocity += damage_data.knockback
     
     def die(self):
         if self.enemy._dead:

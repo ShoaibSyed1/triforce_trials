@@ -2,21 +2,25 @@ import pygame
 
 from game import constants, loader, paths
 from game.component import AnimationSets, CollisionComponent, EventComponent, ScriptComponent, Sprite, Tag, Transform
+from game.damage_data import DamageData
 from game.direction import Direction
 from game.event import CameraEventType, Event, EventType, PlayerEventType
 from game.player_data import PlayerData
 from game.script.script import Script
 from game.script.sword_script import SwordScript
-from game.sword_data import SwordData
 
 class PlayerScript(Script):
     def __init__(self, data):
         self.data = PlayerData()
+
+        self.sound_death = pygame.mixer.Sound(paths.SOUNDS + "player/death.wav")
+        self.sound_hurt = pygame.mixer.Sound(paths.SOUNDS + "player/hurt.wav")
         
         self.facer = Facer()
         self.state = None
 
         self.hurt_cooldown = 0
+        self.hurt_blinker = 0
     
     def start(self, entity, world):
         self.animation = world.component_for_entity(entity, AnimationSets)
@@ -48,7 +52,7 @@ class PlayerScript(Script):
 
         self.set_state(NeutralState(self))
     
-    def update(self, dt):
+    def update(self, dt):        
         for event in self.event_bus.get_events():
             if event.ty == EventType.PLAYER:
                 if event.data['type'] == PlayerEventType.SET_POS:
@@ -71,13 +75,22 @@ class PlayerScript(Script):
                         'new': self.data.xp
                     }, EventType.PLAYER))
                 elif event.data['type'] == PlayerEventType.HURT:
-                    self.hurt(event.data['amount'])
+                    self.hurt(event.data['amount'], event.data.get('knockback', pygame.math.Vector2(0, 0)))
             
             self.state.on_event(event)
         
         self.state.update(dt)
 
-        self.hurt_cooldown += dt
+        self.hurt_cooldown -= dt
+        if self.hurt_cooldown < 0:
+            self.hurt_cooldown = 0
+            self.sprite.visible = True
+
+        if self.hurt_cooldown > 0:
+            self.hurt_blinker += dt
+            if self.hurt_blinker >= constants.HURT_BLINK:
+                self.hurt_blinker = 0
+                self.sprite.visible = not self.sprite.visible            
     
     def set_state(self, state):
         if self.state != None:
@@ -85,19 +98,22 @@ class PlayerScript(Script):
         self.state = state
         self.state.start()
     
-    def hurt(self, amount):
-        if self.hurt_cooldown < constants.HURT_COOLDOWN:
+    def hurt(self, amount, knockback):
+        if self.hurt_cooldown > 0:
             return
+        self.hurt_cooldown = constants.HURT_COOLDOWN
         
         original = self.data.health
-        
-        self.hurt_cooldown = 0
 
         self.data.health -= amount
         if self.data.health <= 0:
             print("DEAD")
+        
+        self.collision.velocity.x += knockback.x
+        self.collision.velocity.y += knockback.y
 
         print("HURT")
+        self.sound_hurt.play()
 
         self.event_bus.send.append(Event({
             'type': PlayerEventType.HEALTH_CHANGED,
@@ -189,6 +205,8 @@ class NeutralState(PlayerState):
             if event.data.type == pygame.KEYDOWN:
                 if event.data.key == pygame.K_SPACE:
                     self.player.set_state(SwingState(self.player))
+                elif event.data.key == pygame.K_LSHIFT:
+                    self.player.set_state(BowState(self.player))
 
 class Facer:
     def __init__(self):
@@ -277,8 +295,12 @@ class SwingState(PlayerState):
 
         self.timer = 0
 
+        dir = self.player.facer.get_dir()
+        if dir == None:
+            dir = Direction.DOWN
+
         self.real_sword_entity = self.player.world.create_entity_with(*loader.load("entity", "sword_collision")[0])
-        sword_script = SwordScript(SwordData(1), self.player)
+        sword_script = SwordScript(DamageData(1, dir.to_vector(constants.WEAPON_KNOCKBACK)), self.player)
         self.player.world.add_component(self.real_sword_entity, ScriptComponent(sword_script))
         self.sword_entity = self.player.world.create_entity_with(*loader.load("entity", "sword")[0])
     
@@ -349,3 +371,77 @@ class SwingState(PlayerState):
 
         if self.timer >= constants.SWING_TIME:
             self.player.set_state(NeutralState(self.player))
+
+class BowState(PlayerState):
+    def __init__(self, player):
+        super().__init__(player)
+
+        self.sound = pygame.mixer.Sound(paths.SOUNDS + "bow.wav")
+
+        self.timer = 0
+    
+    def start(self):
+        self.setup_bow()
+
+        self.player.collision.velocity.x = 0
+        self.player.collision.velocity.y = 0
+
+        self.sound.play()
+
+        dir = self.player.facer.get_dir()
+        animation = "bow_down"
+        if dir == Direction.UP:
+            animation = "bow_up"
+        elif dir == Direction.LEFT:
+            animation = "bow_left"
+        elif dir == Direction.RIGHT:
+            animation = "bow_right"
+        
+        self.player.animation.current = animation
+    
+    def setup_bow(self):
+        self.bow_entity = self.player.world.create_entity_with(*loader.load("entity", "bow")[0])
+
+        animation = self.player.world.component_for_entity(self.bow_entity, AnimationSets)
+        script = self.player.world.component_for_entity(self.bow_entity, ScriptComponent)
+        transform = self.player.world.component_for_entity(self.bow_entity, Transform)
+
+        dir = self.player.facer.get_dir()
+        if dir == None:
+            dir = Direction.DOWN
+
+        script.script.data = DamageData(1, dir.to_vector(constants.WEAPON_KNOCKBACK))
+        script.script.player = self.player
+
+        dir = self.player.facer.get_dir()
+
+        if dir == Direction.UP:
+            transform.position.x = self.player.transform.position.x
+            transform.position.y = self.player.transform.position.y
+            transform.layer = 9
+            animation.current = "up"
+            script.script.dir = Direction.UP
+        elif dir == Direction.LEFT:
+            transform.position.x = self.player.transform.position.x - 8
+            transform.position.y = self.player.transform.position.y
+            animation.current = "left"
+            script.script.dir = Direction.LEFT
+        elif dir == Direction.RIGHT:
+            transform.position.x = self.player.transform.position.x + self.player.sprite.bounds.width + 4
+            transform.position.y = self.player.transform.position.y
+            animation.current = "right"
+            script.script.dir = Direction.RIGHT
+        else:
+            transform.position.x = self.player.transform.position.x
+            transform.position.y = self.player.transform.position.y + self.player.sprite.bounds.height
+            animation.current = "down"
+            script.script.dir = Direction.DOWN
+    
+    def update(self, dt):
+        self.timer += dt
+
+        if self.timer >= constants.BOW_TIME:
+            self.player.set_state(NeutralState(self.player))
+    
+    def stop(self):
+        self.player.world.delete_entity(self.bow_entity)

@@ -1,3 +1,5 @@
+import pygame
+
 import random
 
 from game import constants
@@ -112,6 +114,9 @@ class MiniMoldorm(Enemy):
             
             if aname != None:
                 self.animation.current = aname
+        
+        if self.dir_x != None and self.dir_y != None:
+            self.damage_knockback = pygame.math.Vector2(self.dir_x.to_vector(constants.MINIMOLDORM_SPEED).x * 10, self.dir_y.to_vector(constants.MINIMOLDORM_SPEED).y * 10)
         
         if self.dir_x != None:
             self.collision.velocity.x += self.dir_x.to_vector(constants.MINIMOLDORM_SPEED).x

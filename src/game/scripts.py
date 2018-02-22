@@ -6,6 +6,8 @@ from game.script.ui.bottom_bar import BottomBar
 from game.script.ui.hearts import HeartsScript
 from game.script.ui.player_level import PlayerLevel
 from game.script.ui.xp_bar import XpBar
+from game.script.arrow_script import ArrowScript
+from game.script.bow_script import BowScript
 from game.script.load_script import LoadScript
 from game.script.player_script import PlayerScript
 from game.script.poof import Poof
@@ -20,6 +22,8 @@ _SCRIPTS = {
     "ui/hearts": HeartsScript,
     "ui/player_level": PlayerLevel,
     "ui/xp_bar": XpBar,
+    "arrow_script": ArrowScript,
+    "bow_script": BowScript,
     "load_script": LoadScript,
     "player_script": PlayerScript,
     "poof": Poof,

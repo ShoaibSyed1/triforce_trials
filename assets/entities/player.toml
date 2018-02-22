@@ -61,6 +61,26 @@ delay = 0.05
 start = 60
 end = 66
 
+[animation.sets.bow_down]
+delay = 0.09
+start = 68
+end = 72
+
+[animation.sets.bow_right]
+delay = 0.09
+start = 72
+end = 76
+
+[animation.sets.bow_left]
+delay = 0.09
+start = 76
+end = 80
+
+[animation.sets.bow_up]
+delay = 0.09
+start = 80
+end = 84
+
 [collision]
 size = [16, 16]
 solid = true

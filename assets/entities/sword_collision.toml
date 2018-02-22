@@ -4,7 +4,7 @@ size = [16, 16]
 persistent = true
 
 [tag]
-tags = ["sword"]
+tags = ["sword", "weapon"]
 
 [transform]
 scale = [2, 2]

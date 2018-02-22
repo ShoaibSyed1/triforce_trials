@@ -1,0 +1,32 @@
+[animation]
+current = "down"
+
+[animation.sets.down]
+delay = -1
+start = 0
+end = 1
+
+[animation.sets.right]
+delay = -1
+start = 1
+end = 2
+
+[animation.sets.left]
+delay = -1
+start = 2
+end = 3
+
+[animation.sets.up]
+delay = -1
+start = 3
+end = 4
+
+[script]
+path = "bow_script"
+
+[sprite]
+parent = "bow"
+
+[transform]
+scale = [2, 2]
+layer = 11

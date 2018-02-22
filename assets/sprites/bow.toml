@@ -1,0 +1,6 @@
+image = "bow"
+
+[animation]
+frame_width = 16
+frame_height = 16
+delay = -1
