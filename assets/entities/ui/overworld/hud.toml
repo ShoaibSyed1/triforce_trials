@@ -1,8 +1,3 @@
-[[include]]
-parent = "ui/overworld/bottombar"
-
-[[include]]
-parent = "ui/overworld/hearts"
-
-[[include]]
-parent = "ui/overworld/action_info"
+version https://git-lfs.github.com/spec/v1
+oid sha256:d142a20431603259ef118ccef556148d65d8fadaabb59ab7adcf76185cd20b85
+size 189

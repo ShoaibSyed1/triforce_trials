@@ -2,12 +2,14 @@ from game.script.enemies.mini_moldorm import MiniMoldorm
 from game.script.tiles.entrance import EntranceScript
 from game.script.tiles.exit import Exit
 from game.script.ui.action_script import ActionScript
+from game.script.ui.arrow_counter import ArrowCounter
 from game.script.ui.bottom_bar import BottomBar
 from game.script.ui.hearts import HeartsScript
 from game.script.ui.player_level import PlayerLevel
 from game.script.ui.xp_bar import XpBar
 from game.script.arrow_script import ArrowScript
 from game.script.bow_script import BowScript
+from game.script.drop_script import DropScript
 from game.script.load_script import LoadScript
 from game.script.player_script import PlayerScript
 from game.script.poof import Poof
@@ -18,12 +20,14 @@ _SCRIPTS = {
     "tiles/entrance": EntranceScript,
     "tiles/exit": Exit,
     "ui/action_script": ActionScript,
+    "ui/arrow_counter": ArrowCounter,
     "ui/bottom_bar": BottomBar,
     "ui/hearts": HeartsScript,
     "ui/player_level": PlayerLevel,
     "ui/xp_bar": XpBar,
     "arrow_script": ArrowScript,
     "bow_script": BowScript,
+    "drop_script": DropScript,
     "load_script": LoadScript,
     "player_script": PlayerScript,
     "poof": Poof,

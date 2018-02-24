@@ -8,6 +8,7 @@ class PlayerData:
         self.health = 5
         self.max_health = 5
         self.xp = 0
+        self.arrows = 0
         self.skills = {
             PlayerSkill.MELEE: 0,
             PlayerSkill.RANGED: 0
@@ -20,6 +21,7 @@ class PlayerData:
 
         self.name = data.get('name', "")
         self.xp = data.get('xp', 0)
+        self.arrows = data.get('arrows', 5)
         self.health = data.get('health', 5)
         self.max_health = data.get('max_health', 5)
         for key, value in data.get('skills', {}).items():
@@ -32,6 +34,7 @@ class PlayerData:
         data = {
             'name': self.name,
             'xp': self.xp,
+            'arrows': self.arrows,
             'health': self.health,
             'max_health': self.max_health,
             'skills': {

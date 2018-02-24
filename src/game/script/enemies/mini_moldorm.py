@@ -2,7 +2,8 @@ import pygame
 
 import random
 
-from game import constants
+from game import constants, loader
+from game.component import Transform
 from game.direction import Direction
 from game.event import Event, EventType, MusicEventType, PlayerEventType
 from game.script.enemies.enemy import Enemy
@@ -122,3 +123,10 @@ class MiniMoldorm(Enemy):
             self.collision.velocity.x += self.dir_x.to_vector(constants.MINIMOLDORM_SPEED).x
         if self.dir_y != None:
             self.collision.velocity.y += self.dir_y.to_vector(constants.MINIMOLDORM_SPEED).y
+    
+    def on_death(self):
+        drop = self.world.create_entity_with(*loader.load("entity", "drops/arrow")[0])
+
+        transform = self.world.component_for_entity(drop, Transform)
+        transform.position.x = self.transform.position.x
+        transform.position.y = self.transform.position.y

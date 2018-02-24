@@ -1,6 +1,7 @@
 from game import loader
 from game.component import AnimationSets, ScriptComponent, Transform
 from game.direction import Direction
+from game.event import Event, EventType, PlayerEventType
 from game.script.script import Script
 
 class BowScript(Script):
@@ -19,6 +20,19 @@ class BowScript(Script):
         self.spawn_arrow()
 
     def spawn_arrow(self):
+        if self.player.data.arrows <= 0:
+            return
+        
+        original = self.player.data.arrows
+        self.player.data.arrows -= 1
+
+        self.player.event_bus.send.append(Event({
+            'type': PlayerEventType.ARROWS_CHANGED,
+            'original': original,
+            'amount': -1,
+            'new': self.player.data.arrows
+        }, EventType.PLAYER))
+        
         arrow_entity = self.world.create_entity_with(*loader.load("entity", "arrow")[0])
 
         animation = self.world.component_for_entity(arrow_entity, AnimationSets)

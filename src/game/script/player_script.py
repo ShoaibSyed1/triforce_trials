@@ -4,6 +4,7 @@ from game import constants, loader, paths
 from game.component import AnimationSets, CollisionComponent, EventComponent, ScriptComponent, Sprite, Tag, Transform
 from game.damage_data import DamageData
 from game.direction import Direction
+from game.drop import DropType
 from game.event import CameraEventType, Event, EventType, PlayerEventType
 from game.player_data import PlayerData
 from game.script.script import Script
@@ -50,6 +51,13 @@ class PlayerScript(Script):
             'new': self.data.health
         }, EventType.PLAYER))
 
+        self.event_bus.send.append(Event({
+            'type': PlayerEventType.ARROWS_CHANGED,
+            'original': self.data.arrows,
+            'amount': 0,
+            'new': self.data.arrows
+        }, EventType.PLAYER))
+
         self.set_state(NeutralState(self))
     
     def update(self, dt):        
@@ -76,6 +84,34 @@ class PlayerScript(Script):
                     }, EventType.PLAYER))
                 elif event.data['type'] == PlayerEventType.HURT:
                     self.hurt(event.data['amount'], event.data.get('knockback', pygame.math.Vector2(0, 0)))
+            elif event.ty == EventType.COLLISION:
+                other = None
+                if event.data['first'] == self.entity:
+                    other = event.data['second']
+                elif event.data['second'] == self.entity:
+                    other = event.data['first']
+                
+                if other != None:
+                    if self.world.has_component(other, Tag):
+                        tag = self.world.component_for_entity(other, Tag)
+                        if "drop" in tag.tags:
+                            script = self.world.component_for_entity(other, ScriptComponent).script
+                            drop_info = script.drop
+
+                            if drop_info.ty == DropType.ARROW:
+                                amount = drop_info.data['amount']
+
+                                original = self.data.arrows
+                                self.data.arrows += amount
+
+                                self.event_bus.send.append(Event({
+                                    'type': PlayerEventType.ARROWS_CHANGED,
+                                    'original': original,
+                                    'amount': amount,
+                                    'new': self.data.arrows
+                                }, EventType.PLAYER))
+
+                                script.collected()
             
             self.state.on_event(event)
         

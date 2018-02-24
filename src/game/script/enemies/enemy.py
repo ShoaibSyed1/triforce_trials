@@ -46,6 +46,8 @@ class Enemy(Script):
     def e_start(self): pass
     def e_update(self, dt): pass
 
+    def on_death(self): pass
+
 class EnemyState:
     def __init__(self, enemy):
         self.enemy = enemy
@@ -111,6 +113,8 @@ class NormalState(EnemyState):
     def die(self):
         if self.enemy._dead:
             return
+        
+        self.enemy.on_death()
         
         self.enemy._dead = True
         self.enemy.event_bus.send.append(Event({

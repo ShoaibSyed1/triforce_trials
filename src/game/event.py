@@ -14,8 +14,9 @@ class EventType(Enum):
     MUSIC = 4
     ACTION = 5
     CAVE = 6
+    NOTIFY = 7
     
-    DELETE = 5
+    DELETE = 20
 
 class CameraEventType(Enum):
     FOLLOW = 0
@@ -47,12 +48,17 @@ class PlayerEventType(Enum):
     HEAL = 5
     HEALTH_CHANGED = 6 # original: int, amount: int, new: int
 
+    ARROWS_CHANGED = 7 # original: int, amount: int, new: int
+
 class ActionEventType(Enum):
     SET_INFO = 0 # id: int (entity id), text: string (action name), callback: bool def() (called when action key is pressed, return True to delete action info), timeout: float = None (auto delete)
     DELETE_INFO = 1 # id: int (entity id)
 
 class CaveEventType(Enum):
     DESCEND = 0
+
+class NotifyEventType(Enum):
+    NOTIFY = 0
 
 class DeleteEventType(Enum):
     ENTITY = 0
