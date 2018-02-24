@@ -16,6 +16,8 @@ class PlayerScript(Script):
 
         self.sound_death = pygame.mixer.Sound(paths.SOUNDS + "player/death.wav")
         self.sound_hurt = pygame.mixer.Sound(paths.SOUNDS + "player/hurt.wav")
+
+        self.sound_pickup_arrow = pygame.mixer.Sound(paths.SOUNDS + "player/pickup/arrow.wav")
         
         self.facer = Facer()
         self.state = None
@@ -110,6 +112,8 @@ class PlayerScript(Script):
                                     'amount': amount,
                                     'new': self.data.arrows
                                 }, EventType.PLAYER))
+
+                                self.sound_pickup_arrow.play()
 
                                 script.collected()
             

@@ -5,6 +5,7 @@ from game.script.ui.action_script import ActionScript
 from game.script.ui.arrow_counter import ArrowCounter
 from game.script.ui.bottom_bar import BottomBar
 from game.script.ui.hearts import HeartsScript
+from game.script.ui.notification import Notification
 from game.script.ui.player_level import PlayerLevel
 from game.script.ui.xp_bar import XpBar
 from game.script.arrow_script import ArrowScript
@@ -23,6 +24,7 @@ _SCRIPTS = {
     "ui/arrow_counter": ArrowCounter,
     "ui/bottom_bar": BottomBar,
     "ui/hearts": HeartsScript,
+    "ui/notification": Notification,
     "ui/player_level": PlayerLevel,
     "ui/xp_bar": XpBar,
     "arrow_script": ArrowScript,

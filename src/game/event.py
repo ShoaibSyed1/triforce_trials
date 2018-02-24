@@ -58,7 +58,7 @@ class CaveEventType(Enum):
     DESCEND = 0
 
 class NotifyEventType(Enum):
-    NOTIFY = 0
+    NOTIFY = 0 # time: float (seconds), title: string, text: string, [sound_path: string]
 
 class DeleteEventType(Enum):
     ENTITY = 0
