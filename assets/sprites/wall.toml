@@ -1,5 +1,3 @@
-image = "wall"
-
-[animation]
-frame_width = 4
-frame_height = 4
+version https://git-lfs.github.com/spec/v1
+oid sha256:937857788a636bf33f23840c49b0d4ee125c7240b47fc0f7d6c512117f0254a5
+size 60

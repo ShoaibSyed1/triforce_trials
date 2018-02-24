@@ -1,6 +1,3 @@
-image = "enemies/mini_moldorm"
-
-[animation]
-frame_width = 16
-frame_height = 16
-delay = 0.1
+version https://git-lfs.github.com/spec/v1
+oid sha256:0ea893a0c63e615130a2161222d4155cbf645ca3061edab9d7a98248c0ab39ae
+size 90

@@ -1,7 +1,3 @@
-image = "player"
-
-[animation]
-frame_width = 20
-frame_height = 24
-start = 0
-end = 1
+version https://git-lfs.github.com/spec/v1
+oid sha256:864e4286486aa92dec7face06c4282406a573ce1171fd08b4b106a9c5de5bbe1
+size 82
