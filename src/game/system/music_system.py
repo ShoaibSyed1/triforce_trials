@@ -46,20 +46,24 @@ class MusicSystem(System):
                             self.cur_slot.lifetime = event.data.get('lifetime', None)
                     
                 elif event.data['type'] == MusicEventType.POP:
-                    if self.cur_slot == None or event.data['id'] == self.cur_slot.id:
-                        self.stopping = True
-                        if event.data.get('fade', False):
-                            pygame.mixer.music.fadeout(event.data['fade_time'])
-                        else:
-                            pygame.mixer.music.stop()
+                    self.stopping = True
+                    if event.data.get('fade', False):
+                        pygame.mixer.music.fadeout(event.data['fade_time'])
+                    else:
+                        pygame.mixer.music.stop()
+                    
+                    self.cur_slot = self.cur_slot.prev
+                    if self.cur_slot != None:
+                        self.cur_slot.play()
                         
-                        self.cur_slot = self.cur_slot.prev
-                        if self.cur_slot != None:
-                            self.cur_slot.play()
-                            
-                            if self.cur_slot.stamp != None:
-                                pygame.mixer.music.rewind()
-                                pygame.mixer.music.set_pos(self.cur_slot.stamp / 1000)
+                        if self.cur_slot.stamp != None:
+                            pygame.mixer.music.rewind()
+                            pygame.mixer.music.set_pos(self.cur_slot.stamp / 1000)
+                
+                elif event.data['type'] == MusicEventType.CLEAR:
+                    pygame.mixer.music.stop()
+                    self.cur_slot = None
+            
             elif event.ty == EventType.PYGAME:
                 if event.data.type == 32:
                     if self.cur_slot != None and not self.stopping:

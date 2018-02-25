@@ -147,13 +147,15 @@ class PlayerScript(Script):
 
         self.data.health -= amount
         if self.data.health <= 0:
-            print("DEAD")
-        
-        self.collision.velocity.x += knockback.x
-        self.collision.velocity.y += knockback.y
+            gameover = self.world.create_entity_with(*loader.load("entity", "gameover")[0])
 
-        print("HURT")
-        self.sound_hurt.play()
+            script = self.world.component_for_entity(gameover, ScriptComponent).script
+            script.player_pos = self.transform.position
+        else:
+            self.collision.velocity.x += knockback.x
+            self.collision.velocity.y += knockback.y
+
+            self.sound_hurt.play()
 
         self.event_bus.send.append(Event({
             'type': PlayerEventType.HEALTH_CHANGED,

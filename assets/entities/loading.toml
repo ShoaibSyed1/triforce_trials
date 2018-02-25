@@ -1,6 +1,3 @@
-[sprite]
-image = "loading_bg"
-
-[transform]
-fixed = true
-layer = 100
+version https://git-lfs.github.com/spec/v1
+oid sha256:927ac8ec0830bf903445ee10b525de16dd015eb0763d86c61a567b88154dbcde
+size 68

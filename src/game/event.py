@@ -36,6 +36,7 @@ class MusicEventType(Enum):
     PLAY = 1 # path: string, id: int, [lifetime: int]
     PUSH = 2 # path: string, id: int, [lifetime: int]
     POP = 3 # id: int, fade: boolean -> [fade_time: int (in millis)]
+    CLEAR = 4
 
 class PlayerEventType(Enum):
     SET_POS = 0
