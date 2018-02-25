@@ -9,8 +9,10 @@ from game.script.ui.notification import Notification
 from game.script.ui.player_level import PlayerLevel
 from game.script.ui.xp_bar import XpBar
 from game.script.arrow_script import ArrowScript
+from game.script.bomb_script import BombScript
 from game.script.bow_script import BowScript
 from game.script.drop_script import DropScript
+from game.script.explosion_script import ExplosionScript
 from game.script.gameover_script import GameoverScript
 from game.script.load_script import LoadScript
 from game.script.player_gameover import PlayerGameover
@@ -30,8 +32,10 @@ _SCRIPTS = {
     "ui/player_level": PlayerLevel,
     "ui/xp_bar": XpBar,
     "arrow_script": ArrowScript,
+    "bomb_script": BombScript,
     "bow_script": BowScript,
     "drop_script": DropScript,
+    "explosion_script": ExplosionScript,
     "gameover_script": GameoverScript,
     "load_script": LoadScript,
     "player_gameover": PlayerGameover,

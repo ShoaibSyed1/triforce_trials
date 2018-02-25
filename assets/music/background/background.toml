@@ -1,13 +1,3 @@
-repeat = "RANDOM"
-
-[[choices]]
-path = "background/tp_cave"
-
-[[choices]]
-path = "background/tp_temple_of_time"
-
-[[choices]]
-path = "background/tp_twilight_realm"
-
-[[choices]]
-path = "background/tp_snowpeak_ruins"
+version https://git-lfs.github.com/spec/v1
+oid sha256:509491db5192095b43c08f17044d5b3e9179e1b15c7ca30f9b6cc1023093193d
+size 265

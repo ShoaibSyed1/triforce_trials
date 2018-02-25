@@ -6,6 +6,7 @@ class AnimationSets(Component, FromDict):
     def __init__(self, sets, current=None):
         self.sets = sets
         self.current = current
+        self.last = None
     
     @staticmethod
     def from_dict(data):

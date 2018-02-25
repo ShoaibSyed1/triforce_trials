@@ -14,6 +14,8 @@ class Sprite(Component):
 
         self.offset = offset
 
+        self.change = True
+
         if self.bounds == None:
             self.bounds = pygame.Rect(0, 0, texture.get_width(), texture.get_height())
     

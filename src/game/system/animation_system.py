@@ -13,11 +13,16 @@ class AnimationSystem(System):
                 sprite.end = current_set.end
                 if sprite.current_frame >= sprite.end or sprite.current_frame < sprite.start:
                     sprite.current_frame = sprite.start
+            if animation_sets.last != animation_sets.current:
+                sprite.change = True
+                animation_sets.last = animation_sets.current
 
         for entity, [sprite] in self.world.get_components(Sprite):
             if sprite.has_animation:
                 sprite.delay_counter += dt
-                if sprite.delay_counter >= sprite.delay:
+                if sprite.delay_counter >= sprite.delay or sprite.change:
+                    sprite.change = False
+
                     sprite.delay_counter = 0
 
                     sprite.current_frame += 1

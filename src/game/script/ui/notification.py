@@ -69,7 +69,8 @@ class NeutralState(NotificationState):
     def update(self, dt):
         if len(self.notify.queue) > 0:
             info = self.notify.queue[0]
-            pygame.mixer.Sound(paths.SOUNDS + info.sound_path).play()
+            if info.sound_path != None:
+                pygame.mixer.Sound(paths.SOUNDS + info.sound_path).play()
             self.notify.set_state(DownState(self.notify))
 
 class DownState(NotificationState):

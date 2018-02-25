@@ -2,6 +2,7 @@ Background = TP Twilight Realm --
            | TP Temple of Time --
            | TP Cave --
            | TP Snowpeak Ruins --
+           | OOT Inside the Deku Tree --
 
 Shopkeeper = TP "Shop Theme"
 

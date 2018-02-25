@@ -22,7 +22,7 @@ class PlayerData:
 
         self.name = data.get('name', "")
         self.xp = data.get('xp', 0)
-        self.arrows = data.get('arrows', 5)
+        self.arrows = data.get('arrows', 0)
         self.health = data.get('health', 5)
         self.max_health = data.get('max_health', 5)
         for key, value in data.get('skills', {}).items():

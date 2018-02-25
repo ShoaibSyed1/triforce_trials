@@ -52,13 +52,14 @@ class MusicSystem(System):
                     else:
                         pygame.mixer.music.stop()
                     
-                    self.cur_slot = self.cur_slot.prev
                     if self.cur_slot != None:
-                        self.cur_slot.play()
-                        
-                        if self.cur_slot.stamp != None:
-                            pygame.mixer.music.rewind()
-                            pygame.mixer.music.set_pos(self.cur_slot.stamp / 1000)
+                        self.cur_slot = self.cur_slot.prev
+                        if self.cur_slot != None:
+                            self.cur_slot.play()
+                            
+                            if self.cur_slot.stamp != None:
+                                pygame.mixer.music.rewind()
+                                pygame.mixer.music.set_pos(self.cur_slot.stamp / 1000)
                 
                 elif event.data['type'] == MusicEventType.CLEAR:
                     pygame.mixer.music.stop()

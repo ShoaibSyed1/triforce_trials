@@ -151,6 +151,8 @@ class PlayerScript(Script):
 
             script = self.world.component_for_entity(gameover, ScriptComponent).script
             script.player_pos = self.transform.position
+
+            self.data = PlayerData()
         else:
             self.collision.velocity.x += knockback.x
             self.collision.velocity.y += knockback.y
@@ -249,6 +251,12 @@ class NeutralState(PlayerState):
                     self.player.set_state(SwingState(self.player))
                 elif event.data.key == pygame.K_LSHIFT:
                     self.player.set_state(BowState(self.player))
+                elif event.data.key == pygame.K_b:
+                    bomb = self.player.world.create_entity_with(*loader.load("entity", "bomb")[0])
+
+                    transform = self.player.world.component_for_entity(bomb, Transform)
+                    transform.position.x = self.player.transform.position.x
+                    transform.position.y = self.player.transform.position.y
 
 class Facer:
     def __init__(self):
