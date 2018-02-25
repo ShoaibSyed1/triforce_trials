@@ -33,3 +33,20 @@ class Direction(Enum):
 
     def is_vertical(self):
         return self == Direction.UP or self == Direction.DOWN
+    
+    @staticmethod
+    def between(v1, v2, acc=0):
+        hori = None
+        vert = None
+
+        if v2.x < (v1.x - acc):
+            hori = Direction.LEFT
+        elif v2.x > (v1.x + acc):
+            hori = Direction.RIGHT
+        
+        if v2.y < (v1.y - acc):
+            vert = Direction.UP
+        elif v2.y > (v2.y + acc):
+            vert = Direction.DOWN
+        
+        return (hori, vert)

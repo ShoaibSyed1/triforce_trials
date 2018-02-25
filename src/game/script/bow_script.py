@@ -8,7 +8,7 @@ class BowScript(Script):
     def __init__(self):
         self.dir = None
 
-        self.data = None
+        self.damage_data = None
         self.player = None
     
     def start(self, entity, world):
@@ -55,6 +55,6 @@ class BowScript(Script):
         else:
             transform.position.y += 16
 
-        script.script.data = self.data
+        script.script.damage_data = self.damage_data
         script.script.dir = self.dir
         script.script.player = self.player

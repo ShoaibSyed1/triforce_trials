@@ -1,7 +1,8 @@
 from enum import Enum
 
-from game import saving
-from game.damage_data import DamageData
+from game import constants, saving
+from game.direction import Direction
+from game.damage_data import ArrowDamage, ExplosionDamage, SwordDamage
 
 class PlayerData:
     def __init__(self):
@@ -55,13 +56,20 @@ class PlayerData:
 
         return self.get_level() > lvl
     
-    def get_sword_damage(self):
-        # TODO
-        return 1
+    def get_sword_damage(self, direction):
+        if direction == None:
+            direction = Direction.DOWN
+        
+        return SwordDamage(1, direction.to_vector(constants.SWORD_KNOCKBACK))
     
-    def get_bow_damage(self):
-        # TODO
-        return 1
+    def get_explosion_damage(self, origin):
+        return ExplosionDamage(1, origin, constants.EXPLOSION_KNOCKBACK)
+    
+    def get_bow_damage(self, direction):
+        if direction == None:
+            direction = Direction.DOWN
+        
+        return ArrowDamage(1, direction.to_vector(constants.ARROW_KNOCKBACK))
     
     @staticmethod
     def level_from_xp(xp):

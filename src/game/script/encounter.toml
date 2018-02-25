@@ -1,4 +1,0 @@
-repeat = "NONE"
-
-[[choices]]
-path = "encounter/tp_enemies"

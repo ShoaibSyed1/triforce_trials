@@ -4,6 +4,7 @@ import pygame
 
 from game import constants, loader, paths
 from game.component import AnimationSets, CollisionComponent, EventComponent, ScriptComponent, Tag, Transform
+from game.damage_data import ArrowDamage, ExplosionDamage, SwordDamage
 from game.direction import Direction
 from game.event import Event, EventType, CollisionEventType, DeleteEventType, PlayerEventType
 from game.script.script import Script
@@ -85,21 +86,40 @@ class NormalState(EnemyState):
 
                 tag = self.enemy.world.component_for_entity(other_entity, Tag)
 
-                if tag != None and "weapon" in tag.tags:
-                    self.take_damage(other_entity)
-                elif tag != None and "player" in tag.tags:
-                    self.enemy.event_bus.send.append(Event({
-                        'type': PlayerEventType.HURT,
-                        'amount': self.enemy.attack_amount,
-                        'knockback': self.enemy.damage_knockback
-                    }, EventType.PLAYER))
+                if tag != None:
+                    if "weapon" in tag.tags:
+                        self.take_damage(other_entity)
+                    
+                    if "player" in tag.tags:
+                        self.enemy.event_bus.send.append(Event({
+                            'type': PlayerEventType.HURT,
+                            'amount': self.enemy.attack_amount,
+                            'knockback': self.enemy.damage_knockback
+                        }, EventType.PLAYER))
     
     def take_damage(self, weapon_entity):        
         script_comp = self.enemy.world.component_for_entity(weapon_entity, ScriptComponent)
         
-        damage_data = script_comp.script.data
+        damage_data = script_comp.script.damage_data
 
-        self.enemy.health -= damage_data.damage
+        if isinstance(damage_data, ArrowDamage):
+            self.enemy.health -= damage_data.damage
+            self.enemy.collision.velocity += damage_data.knockback
+        elif isinstance(damage_data, ExplosionDamage):
+            self.enemy.health -= damage_data.damage
+
+            hori, vert = Direction.between(damage_data.origin, self.enemy.transform.position, 16)
+            x = 0
+            y = 0
+            if hori != None:
+                x = hori.to_vector(damage_data.knockback_m).x
+            if vert != None:
+                y = vert.to_vector(damage_data.knockback_m).y
+            
+            self.enemy.collision.velocity += pygame.math.Vector2(x, y)
+        elif isinstance(damage_data, SwordDamage):
+            self.enemy.health -= damage_data.damage
+            self.enemy.collision.velocity += damage_data.knockback
 
         if self.enemy.health <= 0:
             self.death_sound.play()
@@ -107,8 +127,6 @@ class NormalState(EnemyState):
         else:
             self.damage_sound.play()
             self.enemy._set_state(StunnedState(self.enemy))
-        
-        self.enemy.collision.velocity += damage_data.knockback
     
     def die(self):
         if self.enemy._dead:

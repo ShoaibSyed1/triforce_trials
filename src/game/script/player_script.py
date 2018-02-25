@@ -2,7 +2,6 @@ import pygame
 
 from game import constants, loader, paths
 from game.component import AnimationSets, CollisionComponent, EventComponent, ScriptComponent, Sprite, Tag, Transform
-from game.damage_data import DamageData
 from game.direction import Direction
 from game.drop import DropType
 from game.event import CameraEventType, Event, EventType, PlayerEventType
@@ -24,6 +23,8 @@ class PlayerScript(Script):
 
         self.hurt_cooldown = 0
         self.hurt_blinker = 0
+
+        self.bomb_timer = constants.BOMB_COOLDOWN
     
     def start(self, entity, world):
         self.animation = world.component_for_entity(entity, AnimationSets)
@@ -130,7 +131,10 @@ class PlayerScript(Script):
             self.hurt_blinker += dt
             if self.hurt_blinker >= constants.HURT_BLINK:
                 self.hurt_blinker = 0
-                self.sprite.visible = not self.sprite.visible            
+                self.sprite.visible = not self.sprite.visible 
+
+        if self.bomb_timer > 0:
+            self.bomb_timer -= dt           
     
     def set_state(self, state):
         if self.state != None:
@@ -252,11 +256,16 @@ class NeutralState(PlayerState):
                 elif event.data.key == pygame.K_LSHIFT:
                     self.player.set_state(BowState(self.player))
                 elif event.data.key == pygame.K_b:
-                    bomb = self.player.world.create_entity_with(*loader.load("entity", "bomb")[0])
+                    if self.player.bomb_timer <= 0:
+                        self.player.bomb_timer = constants.BOMB_COOLDOWN
+                        bomb = self.player.world.create_entity_with(*loader.load("entity", "bomb")[0])
 
-                    transform = self.player.world.component_for_entity(bomb, Transform)
-                    transform.position.x = self.player.transform.position.x
-                    transform.position.y = self.player.transform.position.y
+                        transform = self.player.world.component_for_entity(bomb, Transform)
+                        transform.position.x = self.player.transform.position.x
+                        transform.position.y = self.player.transform.position.y
+
+                        script = self.player.world.component_for_entity(bomb, ScriptComponent).script
+                        script.damage_data = self.player.data.get_explosion_damage(transform.position)
 
 class Facer:
     def __init__(self):
@@ -350,7 +359,7 @@ class SwingState(PlayerState):
             dir = Direction.DOWN
 
         self.real_sword_entity = self.player.world.create_entity_with(*loader.load("entity", "sword_collision")[0])
-        sword_script = SwordScript(DamageData(self.player.data.get_sword_damage(), dir.to_vector(constants.WEAPON_KNOCKBACK)), self.player)
+        sword_script = SwordScript(self.player.data.get_sword_damage(dir), self.player)
         self.player.world.add_component(self.real_sword_entity, ScriptComponent(sword_script))
         self.sword_entity = self.player.world.create_entity_with(*loader.load("entity", "sword")[0])
     
@@ -460,7 +469,7 @@ class BowState(PlayerState):
         if dir == None:
             dir = Direction.DOWN
 
-        script.script.data = DamageData(self.player.data.get_bow_damage(), dir.to_vector(constants.WEAPON_KNOCKBACK))
+        script.script.damage_data = self.player.data.get_bow_damage(dir)
         script.script.player = self.player
 
         dir = self.player.facer.get_dir()

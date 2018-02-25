@@ -1,13 +1,14 @@
 import pygame
 
 from game import constants, loader, paths
-from game.component import Sprite, Transform
+from game.component import ScriptComponent, Sprite, Transform
 from game.script.script import Script
 
 class BombScript(Script):
     def __init__(self):
         self.timer = 0
-
+        
+        self.damage_data = None
         self.sound = pygame.mixer.Sound(paths.SOUNDS + "bomb.wav")
     
     def start(self, entity, world):
@@ -30,3 +31,5 @@ class BombScript(Script):
 
             transform.position.x = (self.transform.position.x + 16) - (sprite.frame_width * transform.scale.x) / 2
             transform.position.y = (self.transform.position.y + 16) - (sprite.frame_height * transform.scale.y) / 2
+
+            self.world.component_for_entity(explosion, ScriptComponent).script.damage_data = self.damage_data

@@ -1,6 +1,6 @@
 from game.script.script import Script
 
 class SwordScript(Script):
-    def __init__(self, data, player):
-        self.data = data
+    def __init__(self, damage_data, player):
+        self.damage_data = damage_data
         self.player = player

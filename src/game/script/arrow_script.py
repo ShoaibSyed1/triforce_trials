@@ -2,7 +2,6 @@ import pygame
 
 from game import constants, paths
 from game.component import CollisionComponent, EventComponent, Tag
-from game.damage_data import DamageData
 from game.direction import Direction
 from game.event import Event, EventType, CollisionEventType
 from game.script.script import Script
@@ -19,7 +18,7 @@ class ArrowScript(Script):
 
         self.sound_hit = pygame.mixer.Sound(paths.SOUNDS + "arrow_hit.wav")
 
-        self.data = None
+        self.damage_data = None
         self.player = None
     
     def start(self, entity, world):
