@@ -340,7 +340,7 @@ class SwingState(PlayerState):
             dir = Direction.DOWN
 
         self.real_sword_entity = self.player.world.create_entity_with(*loader.load("entity", "sword_collision")[0])
-        sword_script = SwordScript(DamageData(1, dir.to_vector(constants.WEAPON_KNOCKBACK)), self.player)
+        sword_script = SwordScript(DamageData(self.player.data.get_sword_damage(), dir.to_vector(constants.WEAPON_KNOCKBACK)), self.player)
         self.player.world.add_component(self.real_sword_entity, ScriptComponent(sword_script))
         self.sword_entity = self.player.world.create_entity_with(*loader.load("entity", "sword")[0])
     
@@ -450,7 +450,7 @@ class BowState(PlayerState):
         if dir == None:
             dir = Direction.DOWN
 
-        script.script.data = DamageData(1, dir.to_vector(constants.WEAPON_KNOCKBACK))
+        script.script.data = DamageData(self.player.data.get_bow_damage(), dir.to_vector(constants.WEAPON_KNOCKBACK))
         script.script.player = self.player
 
         dir = self.player.facer.get_dir()

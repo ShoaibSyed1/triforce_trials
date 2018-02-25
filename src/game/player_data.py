@@ -1,6 +1,7 @@
 from enum import Enum
 
 from game import saving
+from game.damage_data import DamageData
 
 class PlayerData:
     def __init__(self):
@@ -53,6 +54,14 @@ class PlayerData:
         self.xp += amount
 
         return self.get_level() > lvl
+    
+    def get_sword_damage(self):
+        # TODO
+        return 1
+    
+    def get_bow_damage(self):
+        # TODO
+        return 1
     
     @staticmethod
     def level_from_xp(xp):
