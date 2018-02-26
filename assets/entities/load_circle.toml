@@ -1,15 +1,3 @@
-[sprite]
-image = "loading_circle"
-
-[sprite.animation]
-frame_width = 3
-frame_height = 3
-start = 0
-end = 15
-delay = 0.05
-
-[transform]
-position = [320, 240]
-layer = 101
-fixed = true
-scale = [5, 5]
+version https://git-lfs.github.com/spec/v1
+oid sha256:2c4524b47c371987a0dc09714be660d10496fbdfa572d7c1de07cbab07fd2f93
+size 193
