@@ -1,5 +1,4 @@
 from game.system.animation_system import AnimationSystem
-from game.system.cave_system import CaveSystem
 from game.system.collision_system import CollisionSystem
 from game.system.event_bus_system import EventBusSystem
 from game.system.event_system import EventSystem

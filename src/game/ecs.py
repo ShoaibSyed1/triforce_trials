@@ -98,7 +98,7 @@ class World:
         return self._components[component_type].get(entity, None)
 
     def components_for_entity(self, entity):
-        return map(lambda x: x[entity], filter(lambda x: entity in x.keys(), self._components.values()))
+        return list(map(lambda x: x[entity], filter(lambda x: entity in x.keys(), self._components.values())))
     
     def get_components(self, *component_types):
         entities = []

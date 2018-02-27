@@ -33,7 +33,7 @@ class BowScript(Script):
             'new': self.player.data.arrows
         }, EventType.PLAYER))
         
-        arrow_entity = self.world.create_entity_with(*loader.load("entity", "arrow")[0])
+        arrow_entity = loader.load_entities_into("arrow", self.world)
 
         animation = self.world.component_for_entity(arrow_entity, AnimationSets)
         script = self.world.component_for_entity(arrow_entity, ScriptComponent)

@@ -37,6 +37,17 @@ def load_toml(name, raw_path):
     
     return data
 
+def load_entities_into(path, world):
+    entities = load("entity", path)
+    first = None
+    for i in range(len(entities)):
+        if i == 0:
+            first = world.create_entity_with(*entities[i])
+        else:
+            world.create_entity_with(*entities[i])
+    
+    return first
+
 def load(name, raw_path):
     import toml
 

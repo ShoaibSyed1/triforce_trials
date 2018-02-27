@@ -9,15 +9,12 @@ class Scene:
     
     def start(self):
         from game import loader
-        from game.component import CollisionComponent, ScriptComponent, Sprite, Transform
-        from game.script.player_script import PlayerScript
-        from game.system import AnimationSystem, CaveSystem, CollisionSystem, EventBusSystem, EventSystem, MusicSystem, RenderSystem, ScriptSystem, UiSystem
+        from game.system import AnimationSystem, CollisionSystem, EventBusSystem, EventSystem, MusicSystem, RenderSystem, ScriptSystem, UiSystem
 
         for entity_info in loader.load("scene", "overworld"):
             self.world.create_entity_with(*entity_info)
 
         self.world.add_system(AnimationSystem(), 1)
-        #self.world.add_system(CaveSystem(), -1)
         self.world.add_system(CollisionSystem())
         self.world.add_system(EventBusSystem())
         self.world.add_system(EventSystem())

@@ -34,7 +34,7 @@ class CaveScript(Script):
         for components in loader.load("entity", "OVERWORLD"):
             self.world.create_entity_with(*components)
         
-        ld = self.world.create_entity_with(*loader.load("entity", "loading")[0])
+        ld = loader.load_entities_into("loading", self.world)
         self.world.add_component(ld, ScriptComponent(LoadScript(self.generate())))
 
         pygame.mixer.Sound(paths.SOUNDS + "player/climb.wav").play()
