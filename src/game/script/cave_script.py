@@ -3,50 +3,56 @@ import random
 import pygame
 
 from game import constants, loader, paths
-from game.component import CollisionComponent, EventComponent, ScriptComponent, Sprite, Tag, Transform
-from game.ecs import System
-from game.event import CameraEventType, Event, EventType, CaveEventType, PlayerEventType, MusicEventType
+from game.component import CollisionComponent, EventComponent, ScriptComponent, Tag, Transform
+from game.event import Event, EventType, CameraEventType, CaveEventType, MusicEventType
 from game.generator import Generator
 from game.populator import Populator
 from game.script.load_script import LoadScript
+from game.script.script import Script
 
-# TODO: Turn into script
-class CaveSystem(System):
-    def __init__(self):
-        self._event_bus = EventComponent([EventType.CAVE])
+class CaveScript(Script):
+    def start(self, entity, world):
+        self.entity = entity
+        self.world = world
+
+        self.event_bus = self.world.component_for_entity(self.entity, EventComponent)
+
+        self.do_gen()
     
-    def start(self):
-        for entity in self.world.get_all_entities():
-            if self.world.has_component(entity, Tag):
-                tag = self.world.component_for_entity(entity, Tag)
+    def do_gen(self):
+        for went in self.world.get_all_entities():
+            if went == self.entity:
+                continue
+            
+            if self.world.has_component(went, Tag):
+                tag = self.world.component_for_entity(went, Tag)
                 if not "system" in tag.tags:
-                    self.world.delete_entity(entity)
+                    self.world.delete_entity(went)
             else:
-                self.world.delete_entity(entity)
+                self.world.delete_entity(went)
         
-        self.world.create_entity_with(self._event_bus)
-
         for components in loader.load("entity", "OVERWORLD"):
             self.world.create_entity_with(*components)
         
         ld = self.world.create_entity_with(*loader.load("entity", "loading")[0])
         self.world.add_component(ld, ScriptComponent(LoadScript(self.generate())))
+
+        pygame.mixer.Sound(paths.SOUNDS + "player/climb.wav").play()
     
     def update(self, dt):
-        for event in self._event_bus.get_events():
+        for event in self.event_bus.get_events():
             if event.ty == EventType.CAVE:
                 if event.data['type'] == CaveEventType.DESCEND:
-                    self.start()
+                    self.do_gen()
                     
-                    self._event_bus.send.append(Event({
+                    self.event_bus.send.append(Event({
                         'type': MusicEventType.POP,
                         'id': constants.MUSIC_BG,
                         'fade': True,
                         'fade_time': 1000
                     }, EventType.MUSIC))
-    
+
     def generate(self):
-        pygame.mixer.Sound(paths.SOUNDS + "player/climb.wav").play()
         # TODO
         gen = Generator(32, 32)
         basicmap = gen.create_dungeon()
@@ -134,7 +140,7 @@ class CaveSystem(System):
 
         yield
 
-        self._event_bus.send.append(Event({
+        self.event_bus.send.append(Event({
             'type': CameraEventType.SET_BOUNDS,
             'x': 0,
             'y': 0,
@@ -142,7 +148,7 @@ class CaveSystem(System):
             'height': 16 * 2 * 32 + 80
         }, EventType.CAMERA))
 
-        self._event_bus.send.append(Event({
+        self.event_bus.send.append(Event({
             'type': MusicEventType.PLAY,
             'path': "background/background",
             'id': constants.MUSIC_BG

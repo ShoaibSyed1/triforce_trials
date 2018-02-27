@@ -11,6 +11,7 @@ from game.script.ui.xp_bar import XpBar
 from game.script.arrow_script import ArrowScript
 from game.script.bomb_script import BombScript
 from game.script.bow_script import BowScript
+from game.script.cave_script import CaveScript
 from game.script.drop_script import DropScript
 from game.script.explosion_script import ExplosionScript
 from game.script.gameover_script import GameoverScript
@@ -34,6 +35,7 @@ _SCRIPTS = {
     "arrow_script": ArrowScript,
     "bomb_script": BombScript,
     "bow_script": BowScript,
+    "cave_script": CaveScript,
     "drop_script": DropScript,
     "explosion_script": ExplosionScript,
     "gameover_script": GameoverScript,

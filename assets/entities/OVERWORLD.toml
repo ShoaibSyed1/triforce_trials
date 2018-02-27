@@ -1,5 +1,3 @@
-[[include]]
-parent = "player"
-
-[[include]]
-parent = "ui/overworld/hud"
+version https://git-lfs.github.com/spec/v1
+oid sha256:32a068fbcabcb85b2ca0394389139e032d4b6b46a4d51858cc6968c62fbd3f41
+size 70
