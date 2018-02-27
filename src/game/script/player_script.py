@@ -18,13 +18,18 @@ class PlayerScript(Script):
 
         self.sound_pickup_arrow = pygame.mixer.Sound(paths.SOUNDS + "player/pickup/arrow.wav")
         
-        self.facer = Facer()
+        self.facer = Facer(self)
         self.state = None
 
         self.hurt_cooldown = 0
         self.hurt_blinker = 0
 
         self.bomb_timer = constants.BOMB_COOLDOWN
+
+        self.joystick = None
+        if pygame.joystick.get_count() > 0 and False: # TODO: Setting to enable joystick
+            self.joystick = pygame.joystick.Joystick(0)
+            self.joystick.init()
     
     def start(self, entity, world):
         self.animation = world.component_for_entity(entity, AnimationSets)
@@ -224,25 +229,25 @@ class NeutralState(PlayerState):
         
         keys_pressed = pygame.key.get_pressed()
 
-        if keys_pressed[pygame.K_w]:
+        if keys_pressed[pygame.K_w] or (self.player.joystick != None and self.player.joystick.get_axis(1) > 0.2):
             if not self.player.facer.contains(Direction.UP):
                 self.player.facer.hold(Direction.UP)
         else:
             self.player.facer.release(Direction.UP)
         
-        if keys_pressed[pygame.K_s]:
+        if keys_pressed[pygame.K_s] or (self.player.joystick != None and self.player.joystick.get_axis(1) < -0.2):
             if not self.player.facer.contains(Direction.DOWN):
                 self.player.facer.hold(Direction.DOWN)
         else:
             self.player.facer.release(Direction.DOWN)
         
-        if keys_pressed[pygame.K_a]:
+        if keys_pressed[pygame.K_a] or (self.player.joystick != None and self.player.joystick.get_axis(0) < -0.2):
             if not self.player.facer.contains(Direction.LEFT):
                 self.player.facer.hold(Direction.LEFT)
         else:
             self.player.facer.release(Direction.LEFT)
         
-        if keys_pressed[pygame.K_d]:
+        if keys_pressed[pygame.K_d] or (self.player.joystick != None and self.player.joystick.get_axis(0) > 0.2):
             if not self.player.facer.contains(Direction.RIGHT):
                 self.player.facer.hold(Direction.RIGHT)
         else:
@@ -256,21 +261,42 @@ class NeutralState(PlayerState):
                 elif event.data.key == pygame.K_LSHIFT:
                     self.player.set_state(BowState(self.player))
                 elif event.data.key == pygame.K_b:
-                    if self.player.bomb_timer <= 0:
-                        self.player.bomb_timer = constants.BOMB_COOLDOWN
-                        bomb = self.player.world.create_entity_with(*loader.load("entity", "bomb")[0])
+                    self.spawn_bomb()
+            elif event.data.type == pygame.JOYBUTTONDOWN:
+                if event.data.joy == 0:
+                    if event.data.button == 18:
+                        self.player.set_state(SwingState(self.player))
+                    elif event.data.button == 16:
+                        self.player.set_state(BowState(self.player))
+                    elif event.data.button == 17:
+                        self.spawn_bomb()
+    
+    def spawn_bomb(self):
+        if self.player.bomb_timer <= 0 and self.player.data.bombs > 0:
+            original = self.player.data.bombs
+            self.player.data.bombs -= 1
+            self.player.event_bus.send.append(Event({
+                'type': PlayerEventType.BOMBS_CHANGED,
+                'original': original,
+                'amount': -1,
+                'new': self.player.data.bombs
+            }, EventType.PLAYER))
+                        
+            self.player.bomb_timer = constants.BOMB_COOLDOWN
+            bomb = self.player.world.create_entity_with(*loader.load("entity", "bomb")[0])
 
-                        transform = self.player.world.component_for_entity(bomb, Transform)
-                        transform.position.x = self.player.transform.position.x
-                        transform.position.y = self.player.transform.position.y
+            transform = self.player.world.component_for_entity(bomb, Transform)
+            transform.position.x = self.player.transform.position.x
+            transform.position.y = self.player.transform.position.y
 
-                        script = self.player.world.component_for_entity(bomb, ScriptComponent).script
-                        script.damage_data = self.player.data.get_explosion_damage(transform.position)
+            script = self.player.world.component_for_entity(bomb, ScriptComponent).script
+            script.damage_data = self.player.data.get_explosion_damage(transform.position)
 
 class Facer:
-    def __init__(self):
+    def __init__(self, player):
         self._dirs = []
         self._last_dir = None
+        self.player = player
     
     def contains(self, dir):
         return dir in self._dirs
@@ -298,7 +324,25 @@ class Facer:
         return len(self._dirs) > 0
     
     def get_movement(self):
-        if self.is_moving():
+        if self.player.joystick != None:
+            joy_x = self.player.joystick.get_axis(0)
+            joy_y = self.player.joystick.get_axis(1)
+            if joy_x < -0.9:
+                joy_x = -1
+            elif joy_x > 0.9:
+                joy_x = 1
+            elif (joy_x < 0.2 and joy_x > 0) or (joy_x > -0.2 and joy_x < 0):
+                joy_x = 0
+            
+            if joy_y < -0.9:
+                joy_y = -1
+            elif joy_y > 0.9:
+                joy_y = 1
+            elif (joy_y < 0.2 and joy_y > 0) or (joy_y > -0.2 and joy_y < 0):
+                joy_y = 0
+            
+            return pygame.math.Vector2(50 * joy_x, -50 * joy_y)
+        elif self.is_moving():
             horizontal_dir = None
             vertical_dir = None
 
@@ -309,8 +353,8 @@ class Facer:
                     horizontal_dir = dir
                 else:
                     vertical_dir = dir
-            
             move = pygame.math.Vector2(0, 0)
+
             if horizontal_dir == Direction.LEFT:
                 move.x -= 50
             elif horizontal_dir == Direction.RIGHT:

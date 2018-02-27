@@ -51,6 +51,8 @@ class PlayerEventType(Enum):
 
     ARROWS_CHANGED = 7 # original: int, amount: int, new: int
 
+    BOMBS_CHANGED = 8 # original: int, amount: int, new: int
+
 class ActionEventType(Enum):
     SET_INFO = 0 # id: int (entity id), text: string (action name), callback: bool def() (called when action key is pressed, return True to delete action info), timeout: float = None (auto delete)
     DELETE_INFO = 1 # id: int (entity id)

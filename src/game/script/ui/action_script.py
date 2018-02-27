@@ -49,6 +49,12 @@ class ActionScript(Script):
                         if self.cur_callback != None:
                             if self.cur_callback() == True:
                                 self.reset()
+                elif event.data.type == pygame.JOYBUTTONDOWN:
+                    if event.data.joy == 0:
+                        if event.data.button == 19:
+                            if self.cur_callback != None:
+                                if self.cur_callback() == True:
+                                    self.reset()
     
     def reset(self):
         self.cur_id = None
