@@ -40,3 +40,5 @@ SW S SE
 sprite_number = first_set
 if sprite_number == 15:
     sprite_number += next_set + 1
+
+USE THIS: http://www.indiedb.com/games/i-am-overburdened/tutorials/i-am-overburdened-miles-of-tiles
