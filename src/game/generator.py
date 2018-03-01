@@ -1,4 +1,8 @@
-PASSES = 5
+import random
+
+random.seed(500)
+
+PASSES = 2
 
 # Uses Cellular Automata to Generates Caves
 class Generator:
@@ -154,9 +158,7 @@ class Generator:
     def bound_y(self, y):
         return min(max(0, y), self._height)
 
-def get_tile():
-    import random
-    
+def get_tile():    
     if random.random() <= 0.45:
         return 0
     else:

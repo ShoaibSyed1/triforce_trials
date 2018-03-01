@@ -81,18 +81,21 @@ class CaveScript(Script):
                 if w == 0:
                     sprite_number += 8
                 
+                sprite_number2 = 0
                 if sprite_number == 15:
                     sprite_number += 1
                     if ne == 0:
-                        sprite_number += 1
+                        sprite_number2 += 1
                     if se == 0:
-                        sprite_number += 2
+                        sprite_number2 += 2
                     if sw == 0:
-                        sprite_number += 4
+                        sprite_number2 += 4
                     if nw == 0:
-                        sprite_number += 8
+                        sprite_number2 += 8
+                elif ne != 0 or se != 0 or sw != 0 or nw != 0:
+                    pass
                 
-                tilemap[x + y * 32] = sprite_number
+                tilemap[x + y * 32] = sprite_number + sprite_number2
             
             yield
         
