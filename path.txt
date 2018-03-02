@@ -1,0 +1,12 @@
+1. Basic Loot Tables
+2. Start working on Java framework
+3. Strongly type all arbitrary data
+  - Events
+    - Camera
+    - Collision
+    - Music
+    - Player
+    - Action
+    - Cave
+    - Notify
+4. Start porting to Java

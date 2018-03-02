@@ -3,6 +3,7 @@ from game.deepupdate import deepupdate
 from game.from_dict import FromDict
 from game.loader.data_loader import DataLoader
 from game.loader.entity_loader import EntityLoader
+from game.loader.loot_loader import LootLoader
 from game.loader.music_loader import MusicLoader
 from game.loader.scene_loader import SceneLoader
 from game.loader.sprite_loader import SpriteLoader
@@ -19,6 +20,7 @@ LOADERS = {
 
     "data": DataLoader,
     "entity": EntityLoader,
+    "loot": LootLoader,
     "music": MusicLoader,
     "scene": SceneLoader
 }

@@ -1,6 +1,8 @@
 ASSETS = "assets/"
 
 DATA = ASSETS + "data/"
+LOOT = DATA + "loot/"
+
 ENTITIES = ASSETS + "entities/"
 IMAGES = ASSETS + "images/"
 MUSIC = ASSETS + "music/"

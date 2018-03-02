@@ -3,6 +3,7 @@ from game.script.tiles.entrance import EntranceScript
 from game.script.tiles.exit import Exit
 from game.script.ui.action_script import ActionScript
 from game.script.ui.arrow_counter import ArrowCounter
+from game.script.ui.bomb_counter import BombCounter
 from game.script.ui.bottom_bar import BottomBar
 from game.script.ui.hearts import HeartsScript
 from game.script.ui.notification import Notification
@@ -27,6 +28,7 @@ _SCRIPTS = {
     "tiles/exit": Exit,
     "ui/action_script": ActionScript,
     "ui/arrow_counter": ArrowCounter,
+    "ui/bomb_counter": BombCounter,
     "ui/bottom_bar": BottomBar,
     "ui/hearts": HeartsScript,
     "ui/notification": Notification,
