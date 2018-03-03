@@ -2,7 +2,7 @@ import random
 
 import pygame
 
-from game import constants, loader, paths
+from game import constants, loader, paths, tilemappings
 from game.component import CollisionComponent, EventComponent, ScriptComponent, Tag, Transform
 from game.event import Event, EventType, CameraEventType, CaveEventType, MusicEventType
 from game.generator import Generator
@@ -74,33 +74,27 @@ class CaveScript(Script):
                 sprite_number = 0
                 if n == 0:
                     sprite_number += 1
-                if e == 0:
+                if ne == 0:
                     sprite_number += 2
-                if s == 0:
+                if e == 0:
                     sprite_number += 4
-                if w == 0:
+                if se == 0:
                     sprite_number += 8
+                if s == 0:
+                    sprite_number += 16
+                if sw == 0:
+                    sprite_number += 32
+                if w == 0:
+                    sprite_number += 64
+                if nw == 0:
+                    sprite_number += 128
                 
-                sprite_number2 = 0
-                if sprite_number == 15:
-                    sprite_number += 1
-                    if ne == 0:
-                        sprite_number2 += 1
-                    if se == 0:
-                        sprite_number2 += 2
-                    if sw == 0:
-                        sprite_number2 += 4
-                    if nw == 0:
-                        sprite_number2 += 8
-                elif ne != 0 or se != 0 or sw != 0 or nw != 0:
-                    pass
-                
-                tilemap[x + y * 32] = sprite_number + sprite_number2
+                tilemap[x + y * 32] = tilemappings.get(sprite_number)
             
             yield
         
         populator = Populator(tilemap, 32, 32)
-        tilemap = populator.populate(15, True)
+        tilemap = populator.populate(0, True)
 
         yield
 
