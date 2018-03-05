@@ -1,6 +1,7 @@
-1. Basic Loot Tables
-2. Start working on Java framework
-3. Strongly type all arbitrary data
+1. Better Tiles
+2. Basic Loot Tables
+3. Start working on Java framework
+4. Strongly type all arbitrary data
   - Events
     - Camera
     - Collision
@@ -9,4 +10,4 @@
     - Action
     - Cave
     - Notify
-4. Start porting to Java
+5. Start porting to Java
