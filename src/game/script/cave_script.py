@@ -94,7 +94,7 @@ class CaveScript(Script):
             yield
         
         populator = Populator(tilemap, 32, 32)
-        tilemap = populator.populate(0, True)
+        tilemap = populator.populate(5, True)
 
         yield
 

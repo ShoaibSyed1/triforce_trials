@@ -3,7 +3,10 @@ from game.script.script import Script
 
 class DropScript(Script):
     def __init__(self, drop_data):
-        self.drop = Drop(DropType[drop_data['type']], drop_data['data'])
+        if type(drop_data) == Drop:
+            self.drop = drop_data
+        else:
+            self.drop = Drop.from_data(drop_data)
     
     def start(self, entity, world):
         self.entity = entity

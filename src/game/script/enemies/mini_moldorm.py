@@ -4,6 +4,7 @@ import random
 
 from game import constants, loader
 from game.component import Transform
+from game.data.loot import LootData
 from game.direction import Direction
 from game.event import Event, EventType, MusicEventType, PlayerEventType
 from game.script.enemies.enemy import Enemy
@@ -20,6 +21,8 @@ class MiniMoldorm(Enemy):
         self.dir_y = Direction.DOWN
         self.dir_counter = 0
         self.max_dir_counter = 0
+
+        self.loot_data = LootData.load("mini_moldorm")
     
     def e_start(self):
         self.max_dir_counter = 0
