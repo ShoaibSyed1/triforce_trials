@@ -1,3 +1,5 @@
+import math
+
 import pygame
 
 from game import constants, loader, paths
@@ -323,26 +325,8 @@ class Facer:
     def is_moving(self):
         return len(self._dirs) > 0
     
-    def get_movement(self):
-        if self.player.joystick != None:
-            joy_x = self.player.joystick.get_axis(0)
-            joy_y = self.player.joystick.get_axis(1)
-            if joy_x < -0.9:
-                joy_x = -1
-            elif joy_x > 0.9:
-                joy_x = 1
-            elif (joy_x < 0.2 and joy_x > 0) or (joy_x > -0.2 and joy_x < 0):
-                joy_x = 0
-            
-            if joy_y < -0.9:
-                joy_y = -1
-            elif joy_y > 0.9:
-                joy_y = 1
-            elif (joy_y < 0.2 and joy_y > 0) or (joy_y > -0.2 and joy_y < 0):
-                joy_y = 0
-            
-            return pygame.math.Vector2(50 * joy_x, -50 * joy_y)
-        elif self.is_moving():
+    def get_angle(self):
+        if self.is_moving():
             horizontal_dir = None
             vertical_dir = None
 
@@ -353,19 +337,38 @@ class Facer:
                     horizontal_dir = dir
                 else:
                     vertical_dir = dir
-            move = pygame.math.Vector2(0, 0)
+            
+            angle = 90
 
-            if horizontal_dir == Direction.LEFT:
-                move.x -= 50
-            elif horizontal_dir == Direction.RIGHT:
-                move.x += 50
+            if horizontal_dir == Direction.RIGHT:
+                if vertical_dir == Direction.UP:
+                    angle = 315
+                elif vertical_dir == Direction.DOWN:
+                    angle = 45
+                else:
+                    angle = 0
+            elif horizontal_dir == Direction.LEFT:
+                if vertical_dir == Direction.UP:
+                    angle = 225
+                elif vertical_dir == Direction.DOWN:
+                    angle = 135
+                else:
+                    angle = 180
+            else:
+                if vertical_dir == Direction.UP:
+                    angle = 270
+                elif vertical_dir == Direction.DOWN:
+                    angle = 90
+
+            return math.radians(angle)
+        else:
+            return math.radians(90)
+    
+    def get_movement(self):
+        if self.is_moving():
+            angle = self.get_angle()
             
-            if vertical_dir == Direction.UP:
-                move.y -= 50
-            elif vertical_dir == Direction.DOWN:
-                move.y += 50
-            
-            return move
+            return pygame.math.Vector2(constants.PLAYER_SPEED * math.cos(angle), constants.PLAYER_SPEED * math.sin(angle))
         else:
             return pygame.math.Vector2(0, 0)
     
